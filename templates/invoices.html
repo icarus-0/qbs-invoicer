@@ -93,7 +93,7 @@
                 <div class="input-group">
                     <select class="form-control w-50" id="item_dropdown">
                         {% for item in items %}
-                        <option value="{{item.id}},{{item.name}},{{item.desc}},{{item.price}}">{{item.name}}</option>
+                        <option value="{{item.id}},{{item.name}},{{item.desc}},{{item.price}},{{item.qbo_id}}">{{item.name}}</option>
                         {% endfor %}
                     </select> 
                 
@@ -113,6 +113,7 @@
                         <th>
                         Item Id
                         </th>
+                        
                         <th>
                         Item name
                         </th>
@@ -129,6 +130,7 @@
                         <th>
                             Total
                         </th>
+                  
                     </tr>
                     </thead>
                     <tbody>

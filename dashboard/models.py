@@ -44,6 +44,7 @@ class InvoiceItem(models.Model):
     price = models.FloatField()
     qty = models.IntegerField()
     total = models.FloatField()
+    qbo_id = models.CharField(max_length=100,null=True)
 
     def __str__(self):
          return str(self.id)+'_'+self.name

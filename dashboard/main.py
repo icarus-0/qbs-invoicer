@@ -139,3 +139,49 @@ def create_item_on_qbo(item_ins):
             }
     response = requests.post(url, headers=headers,json=data)
     return response
+
+def create_invoice_on_qbo(client_ins,items_ins):
+    '''
+        create_item_invoice_on_qbo arguments :
+        create_item_invoice_on_qbo_returns   :
+    '''
+
+    access_token = refresh_token()['access_token']
+    base_url = 'https://sandbox-quickbooks.api.intuit.com'
+    url = '{0}/v3/company/{1}/invoice?minorversion=65'.format(base_url, qBData["realm_id"])
+    auth_header = 'Bearer {0}'.format(access_token)
+    headers = {
+        'Authorization': auth_header,
+        'Accept': 'application/json'
+    }
+    lines = []
+    for item in items_ins:
+        line = {
+                "DetailType": "SalesItemLineDetail", 
+                "Amount": item.total,
+                "Description": item.desc,
+                "SalesItemLineDetail": {
+                        "Qty": item.qty,
+                        "UnitPrice":item.price,
+                        "TaxCodeRef" : {
+                                            "name": "0% GST",
+                                            "value" : "24"
+                                        },
+                        "ItemRef": {
+                        "name": item.name, 
+                        "value": item.qbo_id
+                        }
+                    }
+                }
+        lines.append(line)
+        
+
+
+    data = {
+            "Line": lines, 
+            "CustomerRef": {
+                "value": client_ins.qbo_id
+            }
+            }
+    response = requests.post(url, headers=headers,json=data)
+    return response

@@ -149,27 +149,27 @@ def invoices(request):
 @csrf_exempt
 def create_invoice(request):
     data = json.load(request)
-    print(data)
+    
     client_id = int(data['client_id'])
     client_ins = Client.objects.get(pk=client_id)
-
+    print(data)
     invoice_ins = Invoice(
         client = client_ins,
         total = float(data['total_final']),
         sync_status = "Not Sync With QBO"
 
     )
-
     invoice_ins.save()
-
     for i in data['invoice_data']:
+        qbo_id = Item.objects.get(pk=int(data['invoice_data'][i][0])).qbo_id
         invoice_item_ins = InvoiceItem(
             invoice = invoice_ins,
             name = data['invoice_data'][i][1],
             desc = data['invoice_data'][i][2],
             price = data['invoice_data'][i][3],
             qty = data['invoice_data'][i][4],
-            total =  data['invoice_data'][i][5]
+            total =  data['invoice_data'][i][5],
+            qbo_id = qbo_id
         )
         invoice_item_ins.save()
     
