@@ -9,6 +9,7 @@ urlpatterns = [
     path('client_update',views.client_update,name='client_update'),
     path('item_update',views.item_update,name='item_update'),
     path('create_invoice',views.create_invoice,name="create_invoice"),
-    path('generate_invoice',views.generate_invoice,name="generate_invoice")
+    path('generate_invoice',views.generate_invoice,name="generate_invoice"),
+    path('sync_invoices',views.sync_invoices,name="sync_invoices")
    
 ]

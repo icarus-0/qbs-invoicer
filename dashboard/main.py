@@ -140,7 +140,7 @@ def create_item_on_qbo(item_ins):
     response = requests.post(url, headers=headers,json=data)
     return response
 
-def create_invoice_on_qbo(client_ins,items_ins):
+def create_invoice_on_qbo(invoice_ins,items_ins):
     '''
         create_item_invoice_on_qbo arguments :
         create_item_invoice_on_qbo_returns   :
@@ -180,7 +180,7 @@ def create_invoice_on_qbo(client_ins,items_ins):
     data = {
             "Line": lines, 
             "CustomerRef": {
-                "value": client_ins.qbo_id
+                "value": invoice_ins.client.qbo_id
             }
             }
     response = requests.post(url, headers=headers,json=data)

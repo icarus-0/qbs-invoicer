@@ -25,6 +25,24 @@
 </head>
 <body>
 
+    <script>
+      $(document).ready(function(){ 
+        $('#sync_invoice_btn').click(function(){
+          $('#sync_invoice_btn').text('Syncing Data .. !')
+            $.ajax({
+                type: 'POST',
+                url: '/dashboard/sync_invoices',
+                contentType: 'application/json',
+                data: JSON.stringify({ 'sync_status': 'Sync',}),
+                dataType: 'json',
+                success: function(result){
+                  $('#sync_invoice_btn').text('Synced ..!')
+                }
+            });
+      
+        })})
+    </script>
+
     <div class="container-scroller">
   
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -35,7 +53,12 @@
               
               <li class="nav-item nav-settings d-none d-lg-flex">
                 <a class="nav-link" href="/login/logout">
-                    <button type="button" class="btn btn-danger btn-sm">Logout</button>
+                    <button type="button" class="btn btn-danger btn-sm m-1">Logout</button>
+                </a>
+              </li>
+              <li class="nav-item nav-settings d-none d-lg-flex">
+                <a class="nav-link">
+                    <button type="button" class="btn btn-info btn-sm m-1" id="sync_invoice_btn">Sync Invoices to Quickbooks</button>
                 </a>
               </li>
             </ul>

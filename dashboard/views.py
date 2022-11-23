@@ -3,6 +3,7 @@ from django.core.paginator import Paginator
 from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest, JsonResponse
+import datetime
 import json
 from .filters import *
 from .main import *
@@ -186,3 +187,16 @@ def generate_invoice(request):
         'items':invoice_items
     }
     return render(request,'invoice_pdf.html',data)
+
+@csrf_exempt
+def sync_invoices(request):
+    invoices_ins = Invoice.objects.all().filter(sync_status='Not Sync With QBO')
+
+    for invoice_ins in invoices_ins:
+        invoice_items = InvoiceItem.objects.all().filter(invoice=invoice_ins)
+        response = json.loads(create_invoice_on_qbo(invoice_ins,invoice_items).text)
+        invoice_ins.qbo_id = response['Invoice']['Id']
+        invoice_ins.sync_date = datetime.date.today()
+        invoice_ins.sync_status = 'Synced'
+        invoice_ins.save()
+    return JsonResponse({'status':200})
