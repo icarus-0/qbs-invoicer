@@ -36,7 +36,7 @@ def get_companyinfo_from_qbo(access_token):
 
 def create_customer_on_qbo(customer_ins):
     '''
-        create_customer_on_qbo arguments : access_token [ string ]
+        create_customer_on_qbo arguments : customer_ins [ django model object ]
         create_customer_on_qbo returns   : JsonResponse [ dict ]
         creat_customer_on_qbo takes access_token as argument and returns a success/failed response as jsonresponse
     '''
@@ -109,3 +109,38 @@ def update_customer_on_qbo(access_token, update_data):
     response = requests.post(url, headers=headers,json=update_data)
     return response
 
+
+def create_item_on_qbo(item_ins):
+    '''
+        create_item_on_qbo arguments : item_ins [ django model object ]
+        create_item_on_qbo returns   : JsonResponse [ dict ]
+        creat_item_on_qbo takes access_token as argument and returns a success/failed response as jsonresponse
+    '''
+    access_token = refresh_token()['access_token']
+    base_url = 'https://sandbox-quickbooks.api.intuit.com'
+    url = '{0}/v3/company/{1}/item?minorversion=65'.format(base_url, qBData["realm_id"])
+    auth_header = 'Bearer {0}'.format(access_token)
+    headers = {
+        'Authorization': auth_header,
+        'Accept': 'application/json'
+    }
+    data = {
+            "TrackQtyOnHand": True, 
+            "Name": item_ins.name, 
+            "QtyOnHand": 1000, 
+            "IncomeAccountRef": {
+                "name": "Sales of Product Income", 
+                "value": "79"
+            }, 
+            "AssetAccountRef": {
+                "name": "Inventory Asset", 
+                "value": "81"
+            }, 
+            "Type": "Inventory", 
+            "ExpenseAccountRef": {
+                "name": "Cost of Goods Sold", 
+                "value": "80"
+            }
+        }
+    response = requests.post(url, headers=headers,json=data)
+    return response

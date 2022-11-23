@@ -18,15 +18,16 @@ def clients(request):
         client_contact = request.POST['client_contact']
         client_address = request.POST['client_address']
         client_email = request.POST['client_email']
-
         client_ins = Client(
                     name=client_name,
                     contact=client_contact,
                     address=client_address,
-                    email=client_email
+                    email=client_email,
                     )
+        response = json.loads(create_customer_on_qbo(client_ins).text)
+        client_ins.qbo_id = response['Customer']['Id']
         client_ins.save()
-        create_customer_on_qbo(client_ins)
+        
 
         return redirect('/dashboard/clients?page=1')
 
@@ -78,8 +79,10 @@ def items(request):
             desc = item_desc,
             price = item_price
         )
-
-        item_ins.save()
+        response = json.loads(create_item_on_qbo(item_ins).text)
+        print(response)
+        item_ins.qbo_id = response['Id']
+        #item_ins.save()
         return redirect('/dashboard/items?page=1')
     
     items_data = Item.objects.all().order_by('-id')
