@@ -1,0 +1,160 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+
+        
+      <div class="row">
+        <div class="col-md-12 grid-margin">
+          <div class="row">
+            <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+              <h3 class="font-weight-bold">Items</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12 grid-margin">
+          <div class="row">
+            <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                <button type="button" class="btn btn-info btn-sm" id="add_item">Add Item</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+        
+
+      <div class="row" id="add_item_section">
+        <div class="col-md-6 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Add Item</h4>
+              <p class="card-description">
+                Enter Item Details Below
+              </p>
+              <form class="forms-sample" method="POST" action="/dashboard/items">
+                {% csrf_token %}
+
+                <div class="form-group">
+                  <label for="exampleInputUsername1">Name of Item</label>
+                  <input type="text" class="form-control" placeholder="Name of the item" name="item_name">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Description</label>
+                    <input type="text" class="form-control" placeholder="Enter description" name="item_desc">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputUsername1">Price</label>
+                    <input type="text" class="form-control" placeholder="Enter Price" name="item_price">
+                  </div>
+                
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <a class="btn btn-light" id="cancel_item_client">Cancel</a>
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <form class="forms-sample" method="GET">
+                
+                {{item_filter.form}}
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <p class="card-title">Recent Added Items</p>
+              <div class="row">
+                <div class="col-12">
+                  <div class="table-responsive">
+                    <table  class="display expandable-table" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Item ID</th>
+                          <th>Item Name</th>
+                          <th>Item Description</th>
+                          <th>Item Price</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <th>#  {{item.id}}</th>
+                            
+                            <th>
+                                <input value="{{item.name}}" class='item_table_row_data' id="{{item.id}}_name"></input>
+                            </th>
+
+                            <th>
+                                <input value="{{item.desc}}" class='item_table_row_data' id="{{item.id}}_desc"></input>
+                            </th>
+                            
+                            <th>
+                                <input value="{{item.price}}" class='item_table_row_data' id="{{item.id}}_price"></input>
+                            </th>
+
+                        </tr>
+                
+                        {% endfor %}
+                      </tbody>
+
+                  </table>
+
+                </br>
+                </br>
+                  <div class="btn-group" role="group" aria-label="Basic example">
+                    {% if items.has_previous %}
+                    <a href='/dashboard/items?page=1'>
+                        <button type="button" class="btn btn-outline-secondary btn-sm">First</button>
+                    </a>
+                    <a href='/dashboard/items?page={{items.previous_page_number}}'>
+                        <button type="button" class="btn btn-outline-secondary btn-sm">Previous</button>
+                    </a>
+                    {% endif %}
+                    {% if items.has_next %}
+                    <a href='/dashboard/items?page={{items.next_page_number}}'>
+                        <button type="button" class="btn btn-outline-secondary btn-sm">Next</button>
+                    </a>
+                    {% endif %}
+                    <a href='/dashboard/items?page={{items.paginator.num_pages}}'>
+                        <button type="button" class="btn btn-outline-secondary btn-sm">Last</button>
+                    </a>
+                   </div>
+                
+                  </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    
+
+    
+  </div>
+{% endblock%}
