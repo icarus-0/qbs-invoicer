@@ -125,22 +125,17 @@ def create_item_on_qbo(item_ins):
         'Accept': 'application/json'
     }
     data = {
-            "TrackQtyOnHand": True, 
+            "TrackQtyOnHand": False, 
             "Name": item_ins.name, 
-            "QtyOnHand": 1000, 
+            "QtyOnHand": 10,
+            'UnitPrice' : item_ins.price, 
             "IncomeAccountRef": {
                 "name": "Sales of Product Income", 
                 "value": "79"
             }, 
-            "AssetAccountRef": {
-                "name": "Inventory Asset", 
-                "value": "81"
-            }, 
-            "Type": "Inventory", 
-            "ExpenseAccountRef": {
-                "name": "Cost of Goods Sold", 
-                "value": "80"
+            "InvStartDate": "2015-01-01", 
+            "Type": "NonInventory", 
+            
             }
-        }
     response = requests.post(url, headers=headers,json=data)
     return response

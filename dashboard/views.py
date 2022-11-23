@@ -81,8 +81,8 @@ def items(request):
         )
         response = json.loads(create_item_on_qbo(item_ins).text)
         print(response)
-        item_ins.qbo_id = response['Id']
-        #item_ins.save()
+        item_ins.qbo_id = response['Item']['Id']
+        item_ins.save()
         return redirect('/dashboard/items?page=1')
     
     items_data = Item.objects.all().order_by('-id')
