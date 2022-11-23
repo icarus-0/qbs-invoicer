@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest, JsonResponse
 import json
 from .filters import *
+from .main import *
 
 def home(request):
     if request.user.is_authenticated:
@@ -25,6 +26,7 @@ def clients(request):
                     email=client_email
                     )
         client_ins.save()
+        create_customer_on_qbo(client_ins)
 
         return redirect('/dashboard/clients?page=1')
 

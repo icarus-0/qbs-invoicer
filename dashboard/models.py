@@ -7,6 +7,7 @@ class Client(models.Model):
     contact = models.CharField(max_length=15)
     address = models.TextField(null=True)
     email = models.EmailField(null=True)
+    qbo_id = models.CharField(max_length=100,null=True)
 
     def __str__(self):
          return str(self.id)+'_'+self.name
@@ -16,6 +17,7 @@ class Item(models.Model):
     name = models.CharField(max_length=200)
     desc = models.TextField()
     price = models.FloatField()
+    qbo_id = models.CharField(max_length=100,null=True)
 
     def __str__(self):
          return str(self.id)+'_'+self.name
@@ -29,7 +31,7 @@ class Invoice(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     sync_date = models.DateField(null=True)
     sync_status = models.CharField(max_length=20)
-
+    qbo_id = models.CharField(max_length=100,null=True)
 
     def __str__(self):
          return str(self.id)
