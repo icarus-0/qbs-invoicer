@@ -25,7 +25,7 @@
                   <div class="card card-tale">
                     <div class="card-body">
                       <p class="mb-4">Total Invoices</p>
-                      <p class="fs-30 mb-2">4006</p>
+                      <p class="fs-30 mb-2">{{total_invoices}}</p>
                     </div>
                   </div>
                 </div>
@@ -34,7 +34,7 @@
                   <div class="card card-dark-blue">
                     <div class="card-body">
                       <p class="mb-4">Total Clients</p>
-                      <p class="fs-30 mb-2">61344</p>
+                      <p class="fs-30 mb-2">{{total_clients}}</p>
                     </div>
                   </div>
                 </div>
@@ -43,7 +43,7 @@
                     <div class="card card-light-blue">
                       <div class="card-body">
                         <p class="mb-4">Number of Items</p>
-                        <p class="fs-30 mb-2">61344</p>
+                        <p class="fs-30 mb-2">{{total_items}}</p>
                       </div>
                     </div>
                   </div>
@@ -64,19 +64,25 @@
                           <thead>
                             <tr>
                               <th>#Invoice No.</th>
-                              <th>Date Of Creation</th>
-                              <th>Last Updated</th>
                               <th>Client Name</th>
+                              <th>Total</th>
+                              <th>Created</th>
+                              <th>Sync Date</th>
+                              <th>Sync Status</th>
                             </tr>
                           </thead>
 
                           <tbody>
+                            {% for invoice in invoices %}
                             <tr>
-                                <th># 1</th>
-                                <th>15/11/2022</th>
-                                <th>15/11/2022</th>
-                                <th>Naman Singh</th>
+                                <th>#{{invoice.id}}</th>
+                                <th>{{invoice.client.name}}</th>
+                                <th>{{invoice.total}}</th>
+                                <th>{{invoice.created}}</th>
+                                <th>{{invoice.sync_date}}</th>
+                                <th>{{invoice.sync_status}}</th>
                             </tr>
+                            {% endfor %}
                           </tbody>
 
                       </table>

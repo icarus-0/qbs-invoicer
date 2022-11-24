@@ -9,8 +9,24 @@ from .filters import *
 from .main import *
 
 def home(request):
+    """
+        params : request [ WSGI request object ]
+        url    : /dashboard/home
+        returns: render object of home.html with data or redirect object to /login/signin
+    """
     if request.user.is_authenticated:
-        return render(request,'home.html')
+        invoices = Invoice.objects.all().order_by('-id')
+        total_invoices = len(invoices)
+        total_clients  = len(Client.objects.all())
+        total_items    = len(Item.objects.all())
+
+        data = {
+            'total_invoices':total_invoices,
+            'total_clients' :total_clients,
+            'total_items'   : total_items,
+            'invoices'      : invoices
+        }
+        return render(request,'home.html',data)
     return redirect('/login/signin')
 
 def clients(request):
