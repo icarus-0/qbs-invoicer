@@ -97,7 +97,7 @@ def items(request):
             price = item_price
         )
         response = json.loads(create_item_on_qbo(item_ins).text)
-        print(response)
+        #print(response)
         item_ins.qbo_id = response['Item']['Id']
         item_ins.save()
         return redirect('/dashboard/items?page=1')
@@ -169,7 +169,7 @@ def create_invoice(request):
     
     client_id = int(data['client_id'])
     client_ins = Client.objects.get(pk=client_id)
-    print(data)
+    #print(data)
     invoice_ins = Invoice(
         client = client_ins,
         total = float(data['total_final']),
