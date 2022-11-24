@@ -1,0 +1,5 @@
+db.sqlite3
+dashboard/__pycache__
+login/__pycache__
+qbs_invoicer/__pycache__
+dashboard/constants.py
