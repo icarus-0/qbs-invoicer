@@ -40,8 +40,9 @@ Start the server
 
 Go to the link : http://0.0.0.0:8000/login/signin
 
-Demo Username : naman_99
-Demo Password : 1234
+Username : naman_99
+
+Password : 1234
 
 
 ## Demo
